@@ -35,7 +35,7 @@
                                     </div>
                                     <input type="text" name="title"
                                         class="form-control bg-dark text-white @error('title') is-invalid @enderror"
-                                        id="title" placeholder="e.g. What is the difference between OOP & OOD?">
+                                        id="title" placeholder="e.g. What is the difference between OOP & OOD?" required>
                                     @error('title')
                                         <small class="text-danger">
                                             {{ $message }}
