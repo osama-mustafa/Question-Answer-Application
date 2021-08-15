@@ -3,9 +3,11 @@
 @section('content')
 
 <div class="container">
+    
     <div class="row mb-2 ml-3">
         <h2>Tags</h2>
     </div>
+
     <div class="row mb-1 ml-3" style="width: 70%; font-size:1rem">
         <p>
             A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.
