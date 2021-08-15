@@ -84,7 +84,7 @@
                     @endif
                 </div>
 
-                {{-- Sidebar: Search --}}
+                {{-- Sidebar: Search Column --}}
                 <div class="row mr-5">
                     <div class="card-body">
                         <form action="{{ route('search.results') }}" method="POST">
@@ -97,6 +97,7 @@
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
