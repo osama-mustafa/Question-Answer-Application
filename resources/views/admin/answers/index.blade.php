@@ -46,11 +46,14 @@
                     @endforeach
                 </tbody>
             </table>
+
             {{ $answers->links() }}
         </div>
+
     @else
         <div>
             <h3>There are no active answers yet.</h3>
         </div>
     @endif
+    
 @endsection
