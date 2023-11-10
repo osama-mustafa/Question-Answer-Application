@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('work')->nullable();
             $table->string('facebook')->nullable();
             $table->string('linkedin')->nullable();
+            $table->softDeletes();
         });
     }
 

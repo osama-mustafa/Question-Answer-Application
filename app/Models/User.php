@@ -11,11 +11,12 @@ use App\Models\Question;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasFactory, Notifiable, ImageTrait;
+    use HasFactory, Notifiable, ImageTrait, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

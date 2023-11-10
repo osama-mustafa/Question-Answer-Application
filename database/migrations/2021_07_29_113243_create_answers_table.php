@@ -22,6 +22,7 @@ class CreateAnswersTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->integer('votes')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

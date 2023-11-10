@@ -19,12 +19,12 @@ class CreateQuestionsTable extends Migration
             $table->text('body');
             $table->foreignId('user_id')->constrained()
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->boolean('status')->default(true)
-                ->comment('True is accepting answers, false is no longer accepting answers');
+            $table->boolean('status')->default(true);
             $table->timestamps();
             $table->integer('votes')->default(0);
             $table->integer('views')->default(0);
             $table->string('slug');
+            $table->softDeletes();
         });
     }
 
