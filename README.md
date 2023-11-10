@@ -21,3 +21,4 @@ Question-Answer Application is like Stackoverflow which lets users to ask tech q
 - Counter for question views (depends on session)
 - Every user has a public profile with the questions he asked
 - Search System
+- Admin dashboard with website statistics
