@@ -27,20 +27,12 @@ class TagController extends Controller
         $tag->description   = $request->description;
         $tag->save();
         return back()->with('message', 'Tag has been updated successfully');
-
     }
 
-    public function destroy($id)
+    public function destroy(Tag $tag)
     {
-        $tag = Tag::findOrFail($id);
         $tag->delete();
         return back()->with('message', 'Tag has been deleted successfully');
-    }
-
-    public function showTrashedTags()
-    {
-        $tags = Tag::onlyTrashed()->paginate(10);
-        return view('admin.tags.trashed', compact('tags'));
     }
 
     public function restoreTrashed($id)

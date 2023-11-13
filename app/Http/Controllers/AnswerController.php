@@ -18,6 +18,10 @@ class AnswerController extends Controller
         return view('admin.answers.index', compact('answers'));
     }
 
+    public function show(Answer $answer)
+    {
+    }
+
 
     public function store(StoreAnswerRequest $request, $question_id)
     {
@@ -28,9 +32,9 @@ class AnswerController extends Controller
             'question_id' => $question->id,
         ]);
 
-        $question->user->notify(new AnswerNotification($question));
+        // $question->user->notify(new AnswerNotification($question));
         return back()->with([
-            'success' => 'Your answer has been submited successfully'
+            'success' => 'Your answer has been submitted successfully'
         ]);
     }
 
@@ -47,10 +51,12 @@ class AnswerController extends Controller
         $answer = Answer::findOrFail($answer_id);
         $answer->update([
             'body' => $request->body,
-        ]);  
-        return redirect()->route('questions.show',
-                ['id' => $answer->question->id, 'slug' => $answer->question->slug])
-                ->with('message', 'The answer has been updated successfully');
+        ]);
+        return redirect()->route(
+            'questions.show',
+            ['id' => $answer->question->id, 'slug' => $answer->question->slug]
+        )
+            ->with('message', 'The answer has been updated successfully');
     }
 
 
@@ -82,5 +88,4 @@ class AnswerController extends Controller
         $answer->forceDelete();
         return back()->with('message', 'Answer has been deleted forever successfully');
     }
-
 }

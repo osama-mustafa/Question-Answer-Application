@@ -19,15 +19,13 @@
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="/">Homepage</a>
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
         </div>
         <!-- Navbar-->
         <ul class="navbar-nav ml-auto ms-md-10 me-3 me-lg-4">
             <li class="nav-item dropdown justify-content-end">
-                <a class="nav-link mr-2 dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user fa-fw"></i> {{ Auth::user()->name }}</a>
+                <a class="nav-link mr-2 dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i> {{ Auth::user()->name }}</a>
 
 
 
@@ -50,16 +48,14 @@
                 </ul>
 
                 @if (Auth::user()->image != null)
-                    <li class="nav-item">
-                        <img class="rounded-circle" width="40" height="40"
-                            src="{{ url('storage/') . '/' . Auth::user()->image }}">
-                    </li>
-                @else
-                    <li class="nav-item">
-                        <img class="rounded-circle" width="50" height="50"
-                            src="https://image.flaticon.com/icons/png/512/3135/3135715.png">
-                    </li>
-                 @endif
+            <li class="nav-item">
+                <img class="rounded-circle" width="40" height="40" src="{{ url('storage/') . '/' . Auth::user()->image }}">
+            </li>
+            @else
+            <li class="nav-item">
+                <img class="rounded-circle" width="50" height="50" src="https://image.flaticon.com/icons/png/512/3135/3135715.png">
+            </li>
+            @endif
 
             </li>
         </ul>
@@ -78,14 +74,12 @@
                         <div class="sb-sidenav-menu-heading">Interface</div>
 
                         {{-- Quetions Section --}}
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseQuestions" aria-expanded="false" aria-controls="collapseQuestions">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseQuestions" aria-expanded="false" aria-controls="collapseQuestions">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Questions
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseQuestions" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseQuestions" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ route('admin.questions.index') }}">All Questions</a>
                                 <a class="nav-link" href="{{ route('admin.questions.trashed') }}">Trashed</a>
@@ -93,43 +87,36 @@
                         </div>
 
                         {{-- Users Section --}}
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers"
-                            aria-expanded="false" aria-controls="collapseUsers">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers" aria-expanded="false" aria-controls="collapseUsers">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Users
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseUsers" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseUsers" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ route('admin.users.index') }}">All Users</a>
                             </nav>
                         </div>
 
                         {{-- Tags Section --}}
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTags"
-                            aria-expanded="false" aria-controls="collapseTags">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTags" aria-expanded="false" aria-controls="collapseTags">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Tags
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseTags" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseTags" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ route('admin.tags.index') }}">All Tags</a>
-                                <a class="nav-link" href="{{ route('admin.tags.trashed') }}">Trashed Tags</a>
                             </nav>
                         </div>
 
                         {{-- Answers Section --}}
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseAnswers" aria-expanded="false" aria-controls="collapseAnswers">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAnswers" aria-expanded="false" aria-controls="collapseAnswers">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Answers
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseAnswers" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseAnswers" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{{ route('admin.answers.index') }}">All Answers</a>
                                 <a class="nav-link" href="{{ route('admin.answers.trashed') }}">Trashed Answers</a>

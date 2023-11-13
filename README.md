@@ -5,7 +5,7 @@ Question-Answer Application is like Stackoverflow which lets users to ask tech q
 - Clone the project
 - Run "composer update" in your terminal
 - Create .env file
-- Run "php artisan key:genereate" in your terminal
+- Run "php artisan key:generate" in your terminal
 - Create database in phpmyadmin and add it in your .env file
 - Run "php artisan migrate:fresh --seed" in your terminal
 - Use this credentials to access app as admin user (email: admin@website.com, password: 'password')

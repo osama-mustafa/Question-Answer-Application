@@ -153,7 +153,7 @@ class QuestionController extends Controller
         if ($users->count() >= 1) {
             foreach ($users as $user) {
                 $user->notify(new ReportQuestionNotification($question));
-            }    
+            }
         }
         return back()->with('report_success', 'Thanks for your report, we will take the approperiate action');
     }

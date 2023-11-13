@@ -18,10 +18,9 @@ class UserController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::findOrFail($id);
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', ['user' => $user]);
     }
 
 
@@ -55,5 +54,4 @@ class UserController extends Controller
         $user->save();
         return back()->with('message', 'User has been removed from admins successfully');
     }
-    
 }
