@@ -30,7 +30,8 @@ class User extends Authenticatable implements CanResetPassword
         'image',
         'work',
         'facebook',
-        'linkedin'
+        'linkedin',
+        'is_admin'
     ];
 
     /**

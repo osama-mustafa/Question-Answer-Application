@@ -17,41 +17,28 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-
     public function edit(User $user)
     {
         return view('admin.users.edit', ['user' => $user]);
     }
 
-
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $user           = User::findOrFail($id);
-        $user->name     = $request->name;
-        $user->email    = $request->email;
-        $user->work     = $request->work;
-        $user->facebook = $request->facebook;
-        $user->linkedin = $request->linkedin;
-
-        $user->save();
+        $user->update($request->validated());
         return back()->with('message', 'User information has been updated successfully');
     }
-
 
     public function addToAdmins($id)
     {
         $user = User::findOrFail($id);
-        $user->is_admin = true;
-        $user->save();
+        $user->update(['is_admin' => true]);
         return back()->with('message', 'User has been added to admins successfully');
     }
-
 
     public function removeFromAdmins($id)
     {
         $user = User::findOrFail($id);
-        $user->is_admin = false;
-        $user->save();
+        $user->update(['is_admin' => false]);
         return back()->with('message', 'User has been removed from admins successfully');
     }
 }

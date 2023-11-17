@@ -32,18 +32,20 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'string',
                 'alpha_dash',
-                'max:255',
-                Rule::unique('users')->ignore($this->id),
-            ], 
+                'max:50',
+                Rule::unique('users')->ignore($this->user->id),
+            ],
 
             'email' => [
                 'required',
                 'string',
                 'email',
-                'max:255',
-                Rule::unique('users')->ignore($this->id),
-            ]
-
+                'max:70',
+                Rule::unique('users')->ignore($this->user->id),
+            ],
+            'work' => ['nullable'],
+            'facebook' => ['nullable'],
+            'linkedin' => ['nullable'],
         ];
     }
 }
