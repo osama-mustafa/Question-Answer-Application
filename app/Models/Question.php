@@ -15,6 +15,8 @@ use App\Models\QuestionVote;
 class Question extends Model
 {
     use HasFactory, SoftDeletes;
+    const OPEN = 1;
+    const CLOSED = 0;
 
     protected $fillable = [
         'title',
@@ -48,10 +50,11 @@ class Question extends Model
 
     public function countViews()
     {
-        $question_key = 'question' . $this->id;
-        if (!Session::has($question_key)) {
+        $questionKey = 'question ' . $this->id;
+        $viewed = Session::get($questionKey, false);
+        if (!$viewed) {
             $this->increment('views');
-            Session::put($question_key, 1);    
+            Session::put($questionKey, true);
         }
         return $this->save();
     }

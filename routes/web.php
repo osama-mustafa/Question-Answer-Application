@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'a
 
     // Questions
     Route::resource('questions', QuestionController::class);
-    Route::get('/questions/{id}/restore', [QuestionController::class, 'restoreTrashed'])->name('questions.restore');
+    Route::get('/questions/{id}/restore', [QuestionController::class, 'restore'])->name('questions.restore');
     Route::delete('/questions/{id}/force-delete', [QuestionController::class, 'deletePermanently'])->name('questions.force.delete');
     Route::post('/question/{question_id}/close', [QuestionController::class, 'changeStatusToClosed'])->name('questions.close');
     Route::post('/question/{question_id}/open', [QuestionController::class, 'changeStatusToOpen'])->name('questions.open');
@@ -82,11 +82,11 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'a
     // Tags
     Route::resource('tags', TagController::class);
     Route::get('/trashed-tags', [TagController::class, 'showTrashedTags'])->name('tags.trashed');
-    Route::get('/tags/{id}/restore', [TagController::class, 'restoreTrashed'])->name('tags.restore');
+    Route::get('/tags/{id}/restore', [TagController::class, 'restore'])->name('tags.restore');
 
     // Answers
     Route::resource('answers', AnswerController::class);
     Route::get('/trashed-answers', [AnswerController::class, 'showTrashedAnswers'])->name('answers.trashed');
-    Route::get('/answers/{id}/restore', [AnswerController::class, 'restoreTrashed'])->name('answers.restore');
+    Route::get('/answers/{id}/restore', [AnswerController::class, 'restore'])->name('answers.restore');
     Route::delete('/answers/{id}/force-delete', [AnswerController::class, 'deletePermanently'])->name('answers.force.delete');
 });

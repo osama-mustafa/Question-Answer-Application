@@ -17,7 +17,7 @@ class QuestionController extends Controller
     public function index()
     {
         $questions = Question::latest()->paginate(10);
-        return view('admin.questions.index', compact('questions'));
+        return view('admin.questions.index', ['questions' => $questions]);
     }
 
 
@@ -60,14 +60,12 @@ class QuestionController extends Controller
         }
     }
 
-
     public function show($id, $slug)
     {
         $question = Question::findOrFail($id);
-        $question->countViews();
+        incrementViewCount('questions', 'views', $id);
         return view('front.single-question', compact('question'));
     }
-
 
     public function edit($id)
     {
@@ -77,22 +75,18 @@ class QuestionController extends Controller
         return view('front.questions.edit', compact('question', 'previous_tags_as_text'));
     }
 
-
     public function update(StoreQuestionRequest $request, $question_id)
     {
         $question = Question::findOrFail($question_id);
-        $question->title = $request->title;
-        $question->body  = $request->body;
+        $question->update($request->validated());
         if ($request->filled('tags')) {
             $this->handleTags($request, $question);
         }
-        $question->save();
         return back()->with('message', 'Question has been updated successfully');
     }
 
-    public function destroy($id)
+    public function destroy(Question $question)
     {
-        $question = Question::findOrFail($id);
         $question->delete();
         return back()->with('message', 'Question has been deleted successfully');
     }
@@ -103,14 +97,12 @@ class QuestionController extends Controller
         return view('admin.questions.trashed', compact('questions'));
     }
 
-
-    public function restoreTrashed($id)
+    public function restore($id)
     {
         $question = Question::withTrashed()->findOrFail($id);
         $question->restore();
         return back()->with('message', 'Question has been restored successfully');
     }
-
 
     public function deletePermanently($id)
     {
@@ -119,24 +111,21 @@ class QuestionController extends Controller
         return back()->with('message', 'Question has been deleted forever successfully');
     }
 
-
     public function changeStatusToClosed($id)
     {
         $question = Question::findOrFail($id);
-        $question->status = false;
+        $question->status = Question::CLOSED;
         $question->save();
         return back()->with('message', 'Question has been closed and no longer accepting answers');
     }
 
-
     public function changeStatusToOpen($id)
     {
         $question = Question::findOrFail($id);
-        $question->status = true;
+        $question->status = Question::OPEN;
         $question->save();
         return back()->with('message', 'Question has been opened for accepting answers');
     }
-
 
     public function showQuestionsAttachedWithTag($tag_name)
     {
@@ -144,7 +133,6 @@ class QuestionController extends Controller
         $tagged_questions = $tag->questions()->paginate(10);
         return view('front.questions.questions-tagged', compact('tag', 'tagged_questions'));
     }
-
 
     public function reportAsInappropriate($id)
     {
@@ -155,6 +143,6 @@ class QuestionController extends Controller
                 $user->notify(new ReportQuestionNotification($question));
             }
         }
-        return back()->with('report_success', 'Thanks for your report, we will take the approperiate action');
+        return back()->with('report_success', 'Thanks for your report, we will take the appropriate action');
     }
 }
