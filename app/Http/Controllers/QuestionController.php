@@ -16,16 +16,14 @@ class QuestionController extends Controller
 
     public function index()
     {
-        $questions = Question::latest()->paginate(10);
+        $questions = Question::latest()->with('user')->paginate(10);
         return view('admin.questions.index', ['questions' => $questions]);
     }
-
 
     public function create()
     {
         return view('front.ask');
     }
-
 
     public function store(StoreQuestionRequest $request)
     {
@@ -70,9 +68,9 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = Question::findOrFail($id);
-        $question_tags = $question->tags()->get()->pluck('title')->toArray();
-        $previous_tags_as_text = implode(",", $question_tags);
-        return view('front.questions.edit', compact('question', 'previous_tags_as_text'));
+        $questionTags = $question->tags()->get()->pluck('title')->toArray();
+        $tags = implode(",", $questionTags);
+        return view('front.questions.edit', compact('question', 'tags'));
     }
 
     public function update(StoreQuestionRequest $request, $question_id)
@@ -127,20 +125,20 @@ class QuestionController extends Controller
         return back()->with('message', 'Question has been opened for accepting answers');
     }
 
-    public function showQuestionsAttachedWithTag($tag_name)
+    public function showQuestionsAttachedWithTag($tagName)
     {
-        $tag = Tag::where('title', $tag_name)->first();
-        $tagged_questions = $tag->questions()->paginate(10);
-        return view('front.questions.questions-tagged', compact('tag', 'tagged_questions'));
+        $tag = Tag::where('title', $tagName)->first();
+        $taggedQuestions = $tag->questions()->paginate(10);
+        return view('front.questions.questions-tagged', compact('tag', 'taggedQuestions'));
     }
 
     public function reportAsInappropriate($id)
     {
         $question = Question::findOrFail($id);
-        $users = User::where('is_admin', '1')->get();
-        if ($users->count() >= 1) {
-            foreach ($users as $user) {
-                $user->notify(new ReportQuestionNotification($question));
+        $admins = User::where('is_admin', '1')->get();
+        if ($admins->count() >= 1) {
+            foreach ($admins as $admin) {
+                $admin->notify(new ReportQuestionNotification($question));
             }
         }
         return back()->with('report_success', 'Thanks for your report, we will take the appropriate action');

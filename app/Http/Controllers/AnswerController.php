@@ -14,7 +14,7 @@ class AnswerController extends Controller
 {
     public function index()
     {
-        $answers = Answer::paginate(10);
+        $answers = Answer::with('user')->paginate(10);
         return view('admin.answers.index', compact('answers'));
     }
 
