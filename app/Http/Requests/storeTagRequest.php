@@ -30,8 +30,9 @@ class storeTagRequest extends FormRequest
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('tags')->ignore($this->id),  
-            ]
+                Rule::unique('tags')->ignore($this->tag->id),
+            ],
+            'description' => ['string', 'nullable']
         ];
     }
 }

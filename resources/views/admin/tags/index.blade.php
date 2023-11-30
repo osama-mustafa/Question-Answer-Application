@@ -33,7 +33,7 @@
                         {{ $tag->title }}
                     </a>
                 </td>
-                <td>{{ $tag->description }}</td>
+                <td>{{ Str::limit($tag->description, 20) }}</td>
                 <td>{{ $tag->questions->count() }}</td>
                 <td>
                     <a class="btn btn-primary btn-sm" href="{{ route('admin.tags.edit', ['tag' => $tag->id]) }}">

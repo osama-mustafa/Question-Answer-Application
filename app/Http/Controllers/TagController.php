@@ -4,41 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\storeTagRequest;
 use App\Models\Tag;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class TagController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $tags = Tag::with('questions')->paginate(10);
-        return view('admin.tags.index', compact('tags'));
+        return view('admin.tags.index', ['tags' => $tags]);
     }
 
-    public function edit($id)
+    public function edit(Tag $tag): View
     {
-        $tag = Tag::findOrFail($id);
-        return view('admin.tags.edit', compact('tag'));
+        return view('admin.tags.edit', ['tag' => $tag]);
     }
 
-    public function update(storeTagRequest $request, $id)
+    public function update(storeTagRequest $request, Tag $tag): RedirectResponse
     {
-        $tag                = Tag::findOrFail($id);
-        $tag->title         = $request->title;
-        $tag->description   = $request->description;
-        $tag->save();
+        $tag->update($request->validated());
         return back()->with('message', 'Tag has been updated successfully');
     }
 
-    public function destroy(Tag $tag)
+    public function destroy(Tag $tag): RedirectResponse
     {
         $tag->delete();
         return back()->with('message', 'Tag has been deleted successfully');
-    }
-
-    public function restoreTrashed($id)
-    {
-        $tag = Tag::withTrashed()->findOrFail($id);
-        $tag->restore();
-        return back()->with('message', 'Tag has been restored successfully');
     }
 }

@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index(): View
     {
         $users = User::latest()->with('questions')->paginate(10);
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index', ['users' => $users]);
     }
 
     public function edit(User $user): View
