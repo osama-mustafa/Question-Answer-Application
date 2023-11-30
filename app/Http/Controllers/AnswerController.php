@@ -4,26 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Answer;
 use App\Models\Question;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreAnswerRequest;
 use App\Notifications\AnswerNotification;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 
 class AnswerController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $answers = Answer::with('user')->paginate(10);
-        return view('admin.answers.index', compact('answers'));
+        return view('admin.answers.index', ['answers' => $answers]);
     }
 
-    public function show(Answer $answer)
-    {
-    }
-
-
-    public function store(StoreAnswerRequest $request, $question_id)
+    public function store(StoreAnswerRequest $request, $question_id): RedirectResponse
     {
         $question = Question::findOrFail($question_id);
         Answer::create([
@@ -38,15 +34,13 @@ class AnswerController extends Controller
         ]);
     }
 
-
-    public function edit($answer_id)
+    public function edit($answer_id): View
     {
         $answer = Answer::findOrFail($answer_id);
-        return view('front.answers.edit', compact('answer'));
+        return view('front.answers.edit', ['answer' => $answer]);
     }
 
-
-    public function update(StoreAnswerRequest $request, $answer_id)
+    public function update(StoreAnswerRequest $request, $answer_id): RedirectResponse
     {
         $answer = Answer::findOrFail($answer_id);
         $answer->update([
@@ -59,30 +53,27 @@ class AnswerController extends Controller
             ->with('message', 'The answer has been updated successfully');
     }
 
-
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         $answer = Answer::findOrFail($id);
         $answer->delete();
         return back()->with('message', 'Answer has been deleted successfully');
     }
 
-
-    public function showTrashedAnswers()
+    public function showTrashedAnswers(): View
     {
         $answers = Answer::onlyTrashed()->paginate(10);
-        return view('admin.answers.trashed', compact('answers'));
+        return view('admin.answers.trashed', ['answers' => $answers]);
     }
 
-
-    public function restoreTrashed($id)
+    public function restore($id): RedirectResponse
     {
         $answer = Answer::withTrashed()->findOrFail($id);
         $answer->restore();
         return back()->with('message', 'Answer has been restored successfully');
     }
 
-    public function deletePermanently($id)
+    public function deletePermanently($id): RedirectResponse
     {
         $answer = Answer::withTrashed()->findOrFail($id);
         $answer->forceDelete();
