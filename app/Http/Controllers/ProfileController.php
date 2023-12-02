@@ -2,61 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePasswordRequest;
-use App\Http\Requests\StoreProfileRequest;
-use App\Http\Traits\ImageTrait;
-use App\Models\Question;
 use App\Models\User;
+use App\Models\Question;
+use App\Traits\ImageUploadTrait;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreProfileRequest;
+use App\Http\Requests\StorePasswordRequest;
 
 class ProfileController extends Controller
 {
-    use ImageTrait;
+    use ImageUploadTrait;
 
-    public function publicProfile($user_id, $user_name)
+    public function publicProfile($user_id, $user_name): View
     {
         $user = User::findOrFail($user_id);
-        $user_questions = $user->questions()->paginate(10);
-        return view('front.profile.public-profile', compact(['user', 'user_questions']));
+        $userQuestions = $user->questions()->with('answers')->paginate(10);
+        return view('front.profile.public-profile', [
+            'user' => $user,
+            'userQuestions' => $userQuestions
+        ]);
     }
 
 
-    public function edit()
+    public function edit(): View
     {
-        $user    = User::findOrFail(Auth::id());
-        return view('front.profile.edit', compact('user'));
+        return view('front.profile.edit', [
+            'user' => Auth::user()
+        ]);
     }
 
 
-    public function update(StoreProfileRequest $request)
+    public function update(StoreProfileRequest $request): RedirectResponse
     {
-        $user           = Auth::user();
-        $user->name     = $request->name;
-        $user->email    = $request->email;
-        $user->work     = $request->work;
-        $user->facebook = $request->facebook;
-        $user->linkedin = $request->linkedin;
-        $formInput      = $request->all();
-        $image = $formInput['image'] = $this->upload($request);
-        $user->image    = $image;
-        $user->save();
-        
+        Auth::user()->update($request->validated());
+        if ($request->hasFile('image')) {
+            $imageName = $this->handleUploadImage($request, 'image', 'public/images');
+            Auth::user()->update([
+                'image' => $imageName
+            ]);
+        };
         return back()->with([
             'message' => 'Profile has been updated successfully'
         ]);
     }
 
 
-    public function editPassword()
+    public function editPassword(): View
     {
         $user = User::findOrFail(Auth::id());
         return view('front.profile.edit-password', compact('user'));
     }
 
 
-    public function updatePassword(StorePasswordRequest $request)
+    public function updatePassword(StorePasswordRequest $request): RedirectResponse
     {
         $user = User::findOrFail(Auth::id());
         $user->password = Hash::make($request->password);
@@ -64,12 +65,11 @@ class ProfileController extends Controller
         return back()->with('message', 'Password has been updated successfully');
     }
 
-    
-    public function showMyQuestions()
+
+    public function showMyQuestions(): View
     {
         $user = Auth::user();
         $user_questions = Question::where('user_id', $user->id)->paginate(10);
         return view('front.profile.my-questions', compact('user', 'user_questions'));
     }
-
 }

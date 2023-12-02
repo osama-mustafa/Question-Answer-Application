@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Traits\ImageTrait;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
-    use ImageTrait;
-
     public function index(): View
     {
         $users = User::latest()->with('questions')->paginate(10);

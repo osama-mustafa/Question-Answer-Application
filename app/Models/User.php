@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Traits\ImageTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +15,7 @@ use Illuminate\Support\Carbon;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasFactory, Notifiable, ImageTrait, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -71,7 +70,7 @@ class User extends Authenticatable implements CanResetPassword
     public function exceedDailyQuestionLimit()
     {
         $questions  = Question::whereDate('created_at', Carbon::today())
-        ->where('user_id', Auth::id())->get();
+            ->where('user_id', Auth::id())->get();
         if ($questions->count() >= 3) {
             return true;
         }

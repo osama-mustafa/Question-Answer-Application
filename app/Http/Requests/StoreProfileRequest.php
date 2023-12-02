@@ -31,13 +31,16 @@ class StoreProfileRequest extends FormRequest
             'name' => [
                 'required', 'string', 'alpha_dash', 'max:255',
                 Rule::unique('users')->ignore(Auth::user()),
-            ], 
+            ],
 
             'email' => [
                 'required', 'string', 'email', 'max:255',
                 Rule::unique('users')->ignore(Auth::user()),
             ],
-
+            'work' => ['string', 'nullable'],
+            'facebook' => ['string', 'nullable'],
+            'linkedin' => ['string', 'nullable'],
+            'image' => ['nullable']
         ];
     }
 }
