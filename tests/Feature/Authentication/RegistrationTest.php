@@ -13,12 +13,12 @@ class RegistrationTest extends TestCase
      */
 
     use RefreshDatabase;
-    private $registration_route = '/register';
+    private $registerationRoute = '/register';
     private $home_route = '/';
 
     public function test_registration_page_loaded_successfully()
     {
-        $response = $this->get($this->registration_route);
+        $response = $this->get($this->registerationRoute);
         $response->assertStatus(200);
         $response->assertViewIs('auth.register');
         $response->assertSee('register');
@@ -35,7 +35,7 @@ class RegistrationTest extends TestCase
         ];
 
         // Act
-        $response = $this->post($this->registration_route, $userData);
+        $response = $this->post($this->registerationRoute, $userData);
 
         // Assert
         $response->assertStatus(302);
@@ -56,7 +56,7 @@ class RegistrationTest extends TestCase
         ];
 
         // Act
-        $response = $this->post($this->registration_route, $userData);
+        $response = $this->post($this->registerationRoute, $userData);
 
         // Assert
         $response->assertStatus(302);
@@ -75,7 +75,7 @@ class RegistrationTest extends TestCase
         ];
 
         // Act
-        $response = $this->post($this->registration_route, $userData);
+        $response = $this->post($this->registerationRoute, $userData);
 
         // Assert
         $response->assertSessionHasErrors([
