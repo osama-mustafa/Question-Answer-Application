@@ -86,6 +86,27 @@ class AskQuestionsTest extends TestCase
         $this->assertDatabaseCount('questions', 0);
     }
 
+    public function test_authenticated_user_must_provide_description_for_the_question()
+    {
+        // Arrange
+        $authUser = User::factory()->create();
+        $questionData = [
+            'title' => 'question title',
+            'body' => '',
+            'user_id' => $authUser->id
+        ];
+
+        // Act
+        $response = $this->actingAs($authUser)->post(route($this->storeQuestionRoute), $questionData);
+
+        // Assert
+        $response->assertStatus(302);
+        $response->assertInvalid([
+            'body' => 'The body field is required',
+        ]);
+        $this->assertDatabaseEmpty('questions');
+    }
+
     public function test_tags_are_not_mandatory_when_create_new_question()
     {
         // Arrange
