@@ -42,6 +42,7 @@ class RegistrationTest extends TestCase
         $response->assertRedirect($this->home_route);
         $this->assertDatabaseCount('users', 1);
         $this->assertDatabaseHas('users', [
+            'name' => 'ahmed',
             'email' => 'ahmed@gmail.com'
         ]);
     }
